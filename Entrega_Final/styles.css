@@ -13,7 +13,7 @@ a{
 }
 
 a:hover{
-    background-color: #578ab3;
+    background-color: #6a4f30;
     border-radius: 15px;
     color: white;
 }
@@ -34,7 +34,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh ;
-    background-image: url(./Imagenes/Fondo.jpg);
+    background-image: url(./Imagenes/Fondo2.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -79,6 +79,30 @@ body{
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
+}
+
+.sets{
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    margin: 1rem;
+    padding: 5px;
+    border-style: none;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    width: 40%; 
+}
+
+.namesets, .code, .releaseDate, .setType{
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    gap: 3px;
+
+
 }
 
 .name, .cmc, .colors, .types, .subtypes, .rarity, .text, .power, .toughness{
@@ -157,4 +181,17 @@ body{
     margin-bottom: 20px; /* Espacio debajo del select */
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.input-busqueda {
+    margin-left: 10%;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #578ab3; /* Color de borde */
+    background-color: #fff; /* Fondo blanco */
+    color: #578ab3; /* Color de texto */
+    width: 20%; /* Ancho del input */
+    margin-bottom: 20px; /* Espacio debajo del input */
+    cursor: pointer;
+    box-shadow: none; /* Eliminar sombra */
 }
