@@ -1,12 +1,11 @@
-let currentOffset = 0;
+
 
 function getCards(done) {
-    fetch(`https://api.magicthegathering.io/v1/cards?limit=100&offset=${currentOffset}`)
+    fetch(`https://api.magicthegathering.io/v1/cards`)
         .then(response => response.json())
         .then(data => {
             if (data.cards.length > 0) {
                 done(data.cards);
-                currentOffset += 100;
             } else {
                 console.log("No hay más cartas disponibles.");
             }
@@ -14,6 +13,104 @@ function getCards(done) {
         .catch(error => console.error("Error al obtener las cartas:", error));
 }
 
+function getSets(done) {
+    fetch(`https://api.magicthegathering.io/v1/sets`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.sets.length > 0) {
+                done(data.sets);
+            } else {
+                console.log("No hay más sets disponibles.");
+            }
+        })
+        .catch(error => console.error("Error al obtener los sets:", error));
+}
+
+
+getSets(sets => {
+    console.log(cards);
+    const main = document.getElementById("Contenedor-cartas");
+    const selectContainer = document.getElementById("select");
+
+    const setsSelect = document.createElement("select");
+    setsSelect.id = "sets-select";
+    setsSelect.className = "select";
+
+    const allSets = sets.flatMap(card => sets.name || []);
+    const uniqueSets = [...new Set(allSets)];
+
+    const defaultSetsOption = document.createElement("option");
+    defaultSetsOption.value = "";
+    defaultSetsOption.textContent = "Selecciona Set...";
+    setsSelect.appendChild(defaultSetsOption);
+
+    uniqueTypes.forEach(sets => {
+        const option = document.createElement("option");
+        option.value = type;
+        option.textContent = sets;
+        setsSelect.appendChild(option);
+    });
+
+
+    selectContainer.appendChild(setsSelect);
+
+
+    function renderSets(filteredSets) {
+        const setsContainer = document.getElementById("Contenedor-cartas");
+        setsContainer.innerHTML = "";
+
+        filteredSets.forEach(sets => {
+            const div = document.createRange().createContextualFragment(`
+                <div class="cartas">
+                    <div class="name">${sets.name || "Desconocido"}</div>
+                    <div class="cmc">${sets.code ?? "N/A"}</div>
+                    <div class="rarity">${sets.mkm_id || "Desconocida"}</div>
+                    <div class="text">${card.text || "Sin descripción"}</div>
+                    <div class="power">${card.power || ""} /</div>
+                    <div class="toughness">${card.toughness || ""}</div>
+                </div>
+            `);
+            cartasContainer.appendChild(div);
+
+            const powerElement = div.querySelector(".power");
+            const toughnessElement = div.querySelector(".toughness");
+
+            if (powerElement && powerElement.innerHTML.trim() === "/") {
+                powerElement.innerHTML = "";
+            }
+
+            if (toughnessElement && !toughnessElement.innerHTML.trim()) {
+                toughnessElement.style.display = "none";
+            }
+        });
+    }
+
+    function filterCards() {
+        const selectedType = typesSelect.value;
+        const selectedColor = colorSelect.value;
+        const selectedRarity = raritySelect.value;
+
+        let filteredCards = cards;
+
+        if (selectedType) {
+            filteredCards = filteredCards.filter(card => card.types?.includes(selectedType));
+        }
+        
+        if (selectedColor) {
+            filteredCards = filteredCards.filter(card => card.colors?.includes(selectedColor));
+        }
+        
+        if (selectedRarity) {
+            filteredCards = filteredCards.filter(card => card.rarity === selectedRarity);
+        }
+
+        renderCards(filteredCards);
+    }
+
+    typesSelect.addEventListener('change', filterCards);
+    colorSelect.addEventListener('change', filterCards);
+    raritySelect.addEventListener('change', filterCards);
+});
 getCards(cards => {
     console.log(cards);
     const main = document.getElementById("Contenedor-cartas");

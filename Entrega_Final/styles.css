@@ -3,18 +3,25 @@ h1{
     text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);;
 }
 
-li{
+a{
 
     text-decoration: none;
     display: inline;
     padding: 20px;
+    text-decoration: none;
+    color: black;
 }
 
-li:hover{
+a:hover{
     background-color: #578ab3;
     border-radius: 15px;
     color: white;
 }
+
+ul{
+    list-style: none;
+}
+
 
 .contenedor-img img{
     width: 100%;
@@ -27,7 +34,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh ;
-    background-image: url(../Imagenes/8597c6b9-2f00-44be-8938-f151c53c1b9a.jpg);
+    background-image: url(../Imagenes/Fondo.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -38,7 +45,6 @@ body{
     background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
     margin: 5%;
-    width: 100%;
     padding: 5px;
     border-style: none;
     border-radius: 20px;
@@ -53,18 +59,18 @@ body{
 }
 
 .contenedor-cartas{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
     text-align: center;
-    margin: 5%;
-    padding: 5px;
+    justify-content: center;
+    padding: 1rem;
+
 }
 
 .cartas{
     background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
-    margin: 5%;
+    margin: 1rem;
     width: 300px;
     aspect-ratio: 5 / 10;
     padding: 5px;
@@ -140,13 +146,14 @@ body{
 }
 
 .select{
+    margin-left: 10%;
     padding: 10px;
     font-size: 1rem;
     border-radius: 5px;
     border: 2px solid #578ab3; /* Color de borde */
     background-color: #fff; /* Fondo blanco */
     color: #578ab3; /* Color de texto */
-    width: 250px; /* Ancho del select */
+    width: 20%; /* Ancho del select */
     margin-bottom: 20px; /* Espacio debajo del select */
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
