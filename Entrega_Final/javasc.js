@@ -187,7 +187,7 @@ getCards(cards => {
                     <div class="name">${card.name || "Desconocido"}</div>
                     <div class="cmc">${card.cmc ?? "N/A"}</div>
                     <div class="contenedor-img">
-                        <img src="${card.imageUrl || '../Imagenes/reverso.png'}" alt="${card.name}">
+                        <img src="${card.imageUrl || './Imagenes/reverso.png'}" alt="${card.name}">
                     </div>
                     <div class="types">${card.types?.join(", ") || ""}</div>
                     <div class="subtypes">${card.subtypes?.join(", ") || ""}---</div>
