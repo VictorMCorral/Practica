@@ -1,7 +1,10 @@
-h1{
-    color: #578ab3;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);;
+:root {
+    --color-primario: #6a4f30;
+    --fuente-mtg: 
+    
+    
 }
+
 
 a{
 
@@ -13,7 +16,7 @@ a{
 }
 
 a:hover{
-    background-color: #6a4f30;
+    background-color: var(--color-primario);
     border-radius: 15px;
     color: white;
 }
@@ -49,7 +52,6 @@ body{
     border-style: none;
     border-radius: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-
 }
 
 .Lista_Menu{
@@ -59,6 +61,15 @@ body{
 }
 
 .contenedor-cartas{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    padding: 1rem;
+
+}
+
+.contenedor-formatos{
     display: flex;
     flex-wrap: wrap;
     text-align: center;
@@ -78,17 +89,18 @@ body{
     border-radius: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: hidden;
+    overflow: auto;
 }
 
-.sets{
+
+.sets, .formatos{
     background-color: rgba(255, 255, 255, 0.5);
     text-align: center;
-    margin: 1rem;
+    margin: 0.5rem 1rem 0rem 1rem;
     padding: 5px;
     border-style: none;
-    border-radius: 20px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
     position: relative;
     overflow: hidden;
     width: 40%; 
@@ -174,24 +186,23 @@ body{
     padding: 10px;
     font-size: 1rem;
     border-radius: 5px;
-    border: 2px solid #578ab3; /* Color de borde */
-    background-color: #fff; /* Fondo blanco */
-    color: #578ab3; /* Color de texto */
-    width: 20%; /* Ancho del select */
-    margin-bottom: 20px; /* Espacio debajo del select */
+    border: 2px solid;
+    background-color: #fff; 
+    width: 20%; 
+    margin-bottom: 20px; 
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .input-busqueda {
     margin-left: 10%;
-    font-size: 1rem;
     border-radius: 5px;
-    border: 2px solid #578ab3; /* Color de borde */
-    background-color: #fff; /* Fondo blanco */
-    color: #578ab3; /* Color de texto */
-    width: 20%; /* Ancho del input */
-    margin-bottom: 20px; /* Espacio debajo del input */
+    border: 2px solid;
+    background-color: #fff; 
+    width: 20%;
+    height: 2rem; 
+    margin-bottom: 20px; 
     cursor: pointer;
-    box-shadow: none; /* Eliminar sombra */
+    box-shadow: none;
+    box-sizing: border-box;
 }

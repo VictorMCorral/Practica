@@ -1,25 +1,66 @@
 let CartasElementos = document.getElementById('Cartas');
 
-function getCards(done) {
-    fetch(`https://api.magicthegathering.io/v1/cards`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cards.length > 0) {
-                done(data.cards);
-            } else {
-                console.log("No hay más cartas disponibles.");
-            }
-        })
-        .catch(error => console.error("Error al obtener las cartas:", error));
+async function getTypes() {
+    try {
+        const response = await fetch(`https://api.magicthegathering.io/v1/types`);
+        const data = await response.json();
+        if (data.types.length > 0) {
+            return data.types;
+        } else {
+            console.log("No hay más tipos disponibles.");
+            return [];
+        }
+    } catch (error) {
+        console.error("Error al obtener los tipos:", error);
+        return [];
+    }
 }
 
-getCards(cards => {
-    console.log(cards);
-    createFilters(cards);
-    renderCards(cards); // Renderiza todas las cartas inicialmente
-});
+async function getSets() {
+    try {
+        const response = await fetch(`https://api.magicthegathering.io/v1/sets`);
+        const data = await response.json();
+        if (data.sets.length > 0) {
+            return data.sets;
+        } else {
+            console.log("No hay más sets disponibles.");
+            return [];
+        }
+    } catch (error) {
+        console.error("Error al obtener los sets:", error);
+        return [];
+    }
+}
 
-function createFilters(cards) {
+async function getCards(filters) {
+    const query = new URLSearchParams(filters).toString();
+    try {
+        const response = await fetch(`https://api.magicthegathering.io/v1/cards?${query}`);
+        const data = await response.json();
+        if (data.cards.length > 0) {
+            return data.cards;
+        } else {
+            alert("No hay cartas disponibles con esos filtros.");
+            return [];
+        }
+    } catch (error) {
+        console.error("Error al obtener las cartas:", error);
+        return [];
+    }
+}
+
+// Obtener tipos y sets al cargar la página
+async function initialize() {
+    const types = await getTypes();
+    createTypesFilter(types);
+
+    const sets = await getSets();
+    createSetsFilter(sets);
+
+    createSearchButton(); // Crear el botón después de los selects
+}
+
+function createTypesFilter(types) {
     const selectContainer = document.getElementById("select");
 
     // Crear selector de tipos
@@ -27,98 +68,71 @@ function createFilters(cards) {
     typesSelect.id = "types-select";
     typesSelect.className = "select";
 
-    const allTypes = cards.flatMap(card => card.types || []);
-    const uniqueTypes = [...new Set(allTypes)];
-
     const defaultTypeOption = document.createElement("option");
     defaultTypeOption.value = "";
     defaultTypeOption.textContent = "Seleccionar tipo...";
     typesSelect.appendChild(defaultTypeOption);
 
-    uniqueTypes.forEach(type => {
+    types.forEach(type => {
         const option = document.createElement("option");
         option.value = type;
         option.textContent = type;
         typesSelect.appendChild(option);
     });
 
-    // Crear selector de colores
-    const colorSelect = document.createElement("select");
-    colorSelect.id = "color-select";
-    colorSelect.className = "select";
-
-    const allColors = cards.flatMap(card => card.colors || []);
-    const uniqueColors = [...new Set(allColors)];
-
-    const defaultColorOption = document.createElement("option");
-    defaultColorOption.value = "";
-    defaultColorOption.textContent = "Seleccionar color...";
-    colorSelect.appendChild(defaultColorOption);
-
-    uniqueColors.forEach(color => {
-        const option = document.createElement("option");
-        option.value = color;
-        option.textContent = color;
-        colorSelect.appendChild(option);
-    });
-
-    // Crear selector de rarezas
-    const raritySelect = document.createElement("select");
-    raritySelect.id = "rarity-select";
-    raritySelect.className = "select";
-
-    const allRarities = cards.map(card => card.rarity).filter(rarity => rarity);
-    const uniqueRarities = [...new Set(allRarities)];
-
-    const defaultRarityOption = document.createElement("option");
-    defaultRarityOption.value = "";
-    defaultRarityOption.textContent = "Seleccionar rareza...";
-    raritySelect.appendChild(defaultRarityOption);
-
-    uniqueRarities.forEach(rarity => {
-        const option = document.createElement("option");
-        option.value = rarity;
-        option.textContent = rarity;
-        raritySelect.appendChild(option);
-    });
-
-    // Añadir selectores al contenedor
     selectContainer.appendChild(typesSelect);
-    selectContainer.appendChild(colorSelect);
-    selectContainer.appendChild(raritySelect);
-
-    // Filtrar cartas cuando cambie alguno de los selectores
-    typesSelect.addEventListener('change', () => filterCards(cards));
-    colorSelect.addEventListener('change', () => filterCards(cards));
-    raritySelect.addEventListener('change', () => filterCards(cards));
 }
 
-function filterCards(cards) {
-    const selectedType = document.getElementById("types-select").value;
-    const selectedColor = document.getElementById("color-select").value;
-    const selectedRarity = document.getElementById("rarity-select").value;
+function createSetsFilter(sets) {
+    const selectContainer = document.getElementById("select");
 
-    let filteredCards = cards;
+    // Crear selector de sets
+    const setsSelect = document.createElement("select");
+    setsSelect.id = "sets-select";
+    setsSelect.className = "select";
 
-    // Verifica si alguna opción por defecto está seleccionada
-    if (selectedType === "" && selectedColor === "" && selectedRarity === "") {
-        filteredCards = cards; // Muestra todas las cartas si no se ha filtrado
-    } else {
-        if (selectedType) {
-            filteredCards = filteredCards.filter(card => card.types?.includes(selectedType));
-        }
-        
-        if (selectedColor) {
-            filteredCards = filteredCards.filter(card => card.colors?.includes(selectedColor));
-        }
-        
-        if (selectedRarity) {
-            filteredCards = filteredCards.filter(card => card.rarity === selectedRarity);
-        }
-    }
+    const defaultSetOption = document.createElement("option");
+    defaultSetOption.value = "";
+    defaultSetOption.textContent = "Seleccionar set...";
+    setsSelect.appendChild(defaultSetOption);
 
-    renderCards(filteredCards);
+    sets.forEach(set => {
+        const option = document.createElement("option");
+        option.value = set.code; // Asegúrate de que esto sea el valor correcto para filtrar
+        option.textContent = set.name;
+        setsSelect.appendChild(option);
+    });
+
+    selectContainer.appendChild(setsSelect);
 }
+
+// Crear el botón de búsqueda
+function createSearchButton() {
+    const selectContainer = document.getElementById("select");
+
+    const searchButton = document.createElement("button");
+    searchButton.id = "buscar-btn";
+    searchButton.textContent = "Buscar";
+    searchButton.className = "select";
+
+    // Manejar la búsqueda al presionar el botón
+    searchButton.addEventListener('click', async () => {
+        const selectedType = document.getElementById("types-select").value;
+        const selectedSet = document.getElementById("sets-select").value;
+
+        const filters = {};
+        if (selectedType) filters.types = selectedType; // Filtra por tipo
+        if (selectedSet) filters.set = selectedSet; // Filtra por set
+
+        const cards = await getCards(filters);
+        renderCards(cards);
+    });
+
+    selectContainer.appendChild(searchButton);
+}
+
+// Iniciar la aplicación
+initialize();
 
 function renderCards(cards) {
     const cartasContainer = document.getElementById("Contenedor-cartas");
@@ -126,19 +140,19 @@ function renderCards(cards) {
 
     cards.forEach(card => {
         const div = document.createRange().createContextualFragment(`
-            <div class="cartas">
+        <div class="cartas">
+            <div class="contenedor-img">
+                <img src="${card.imageUrl || './Imagenes/reverso.png'}" alt="${card.name}">
+            </div>
                 <div class="name">${card.name || "Desconocido"}</div>
                 <div class="cmc">${card.cmc ?? "N/A"}</div>
-                <div class="contenedor-img">
-                    <img src="${card.imageUrl || './Imagenes/reverso.png'}" alt="${card.name}">
-                </div>
                 <div class="types">${card.types?.join(", ") || ""}</div>
                 <div class="subtypes">${card.subtypes?.join(", ") || ""}---</div>
                 <div class="rarity">${card.rarity || "Desconocida"}</div>
                 <div class="text">${card.text || "Sin descripción"}</div>
                 <div class="power">${card.power || ""} /</div>
                 <div class="toughness">${card.toughness || ""}</div>
-            </div>
+        </div>
         `);
         cartasContainer.appendChild(div);
     });
