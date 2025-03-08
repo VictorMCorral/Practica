@@ -7,6 +7,14 @@
 
 Una aplicación web construida con **React** que interactúa con la API pública de *Magic: The Gathering* para mostrar cartas, sets, tipos y formatos de juego. Con esta app, puedes explorar y buscar información detallada sobre el juego.
 
+## Enlaces
+
+[Vercel - React](https://mtg-navy.vercel.app/)
+
+[Vercel - JavaScript](https://practica-k69s.vercel.app/)
+
+[Video explicativo](https://drive.google.com/drive/folders/1toHWXkZ3K9Zxt9SIM5kGQN9mvlgD6sEx?usp=drive_link)
+
 ## Funcionalidades
 
 - **Búsqueda de cartas**: Filtra cartas por tipo y set.
