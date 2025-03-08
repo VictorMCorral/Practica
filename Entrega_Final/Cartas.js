@@ -17,7 +17,6 @@ async function getTypes() {
 }
 
 async function getSets() {
-    try {
         const response = await fetch(`https://api.magicthegathering.io/v1/sets`);
         const data = await response.json();
         if (data.sets.length > 0) {
@@ -26,15 +25,10 @@ async function getSets() {
             console.log("No hay más sets disponibles.");
             return [];
         }
-    } catch (error) {
-        console.error("Error al obtener los sets:", error);
-        return [];
-    }
 }
 
 async function getCards(filters) {
     const query = new URLSearchParams(filters).toString();
-    try {
         const response = await fetch(`https://api.magicthegathering.io/v1/cards?${query}`);
         const data = await response.json();
         if (data.cards.length > 0) {
@@ -43,13 +37,9 @@ async function getCards(filters) {
             alert("No hay cartas disponibles con esos filtros.");
             return [];
         }
-    } catch (error) {
-        console.error("Error al obtener las cartas:", error);
-        return [];
-    }
 }
 
-// Obtener tipos y sets al cargar la página
+
 async function initialize() {
     const types = await getTypes();
     createTypesFilter(types);
@@ -57,13 +47,12 @@ async function initialize() {
     const sets = await getSets();
     createSetsFilter(sets);
 
-    createSearchButton(); // Crear el botón después de los selects
+    createSearchButton(); 
 }
 
 function createTypesFilter(types) {
     const selectContainer = document.getElementById("select");
 
-    // Crear selector de tipos
     const typesSelect = document.createElement("select");
     typesSelect.id = "types-select";
     typesSelect.className = "select";
@@ -86,7 +75,6 @@ function createTypesFilter(types) {
 function createSetsFilter(sets) {
     const selectContainer = document.getElementById("select");
 
-    // Crear selector de sets
     const setsSelect = document.createElement("select");
     setsSelect.id = "sets-select";
     setsSelect.className = "select";
@@ -98,7 +86,7 @@ function createSetsFilter(sets) {
 
     sets.forEach(set => {
         const option = document.createElement("option");
-        option.value = set.code; // Asegúrate de que esto sea el valor correcto para filtrar
+        option.value = set.code;
         option.textContent = set.name;
         setsSelect.appendChild(option);
     });
@@ -106,7 +94,7 @@ function createSetsFilter(sets) {
     selectContainer.appendChild(setsSelect);
 }
 
-// Crear el botón de búsqueda
+
 function createSearchButton() {
     const selectContainer = document.getElementById("select");
 
@@ -115,15 +103,14 @@ function createSearchButton() {
     searchButton.textContent = "Buscar";
     searchButton.className = "select";
 
-    // Manejar la búsqueda al presionar el botón
+
     searchButton.addEventListener('click', async () => {
         const selectedType = document.getElementById("types-select").value;
         const selectedSet = document.getElementById("sets-select").value;
 
         const filters = {};
-        if (selectedType) filters.types = selectedType; // Filtra por tipo
-        if (selectedSet) filters.set = selectedSet; // Filtra por set
-
+        if (selectedType) filters.types = selectedType; 
+        if (selectedSet) filters.set = selectedSet; 
         const cards = await getCards(filters);
         renderCards(cards);
     });
@@ -131,12 +118,11 @@ function createSearchButton() {
     selectContainer.appendChild(searchButton);
 }
 
-// Iniciar la aplicación
 initialize();
 
 function renderCards(cards) {
     const cartasContainer = document.getElementById("Contenedor-cartas");
-    cartasContainer.innerHTML = ""; // Limpia el contenedor antes de agregar nuevas cartas
+    cartasContainer.innerHTML = ""; 
 
     cards.forEach(card => {
         const div = document.createRange().createContextualFragment(`
@@ -147,7 +133,7 @@ function renderCards(cards) {
                 <div class="name">${card.name || "Desconocido"}</div>
                 <div class="cmc">${card.cmc ?? "N/A"}</div>
                 <div class="types">${card.types?.join(", ") || ""}</div>
-                <div class="subtypes">${card.subtypes?.join(", ") || ""}---</div>
+
                 <div class="rarity">${card.rarity || "Desconocida"}</div>
                 <div class="text">${card.text || "Sin descripción"}</div>
                 <div class="power">${card.power || ""} /</div>

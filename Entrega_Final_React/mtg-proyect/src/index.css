@@ -1,0 +1,30 @@
+@font-face {
+    font-family: "Medieval";
+    src: url(./Fonts/CloisterBlack.ttf);
+}
+
+
+:root {
+    --color-primario: #6a4f30; 
+
+}
+
+
+
+body{
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh ;
+    background-image: url(./Imagenes/Fondo2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+
+
+
+
+

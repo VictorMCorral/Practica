@@ -1,8 +1,12 @@
+@font-face {
+    font-family: "Medieval";
+    src: url(./Fonts/CloisterBlack.ttf);
+}
+
+
 :root {
-    --color-primario: #6a4f30;
-    --fuente-mtg: 
-    
-    
+    --color-primario: #6a4f30; 
+
 }
 
 
@@ -22,6 +26,7 @@ a:hover{
 }
 
 ul{
+    font-family: "Medieval";
     list-style: none;
 }
 
@@ -83,13 +88,12 @@ body{
     text-align: center;
     margin: 1rem;
     width: 300px;
-    aspect-ratio: 5 / 10;
+    aspect-ratio: 5 / 11;
     padding: 5px;
     border-style: none;
     border-radius: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: auto;
 }
 
 
@@ -128,44 +132,39 @@ body{
 
 .name{
     position: absolute;
-    top: 70%;
+    top: 65%;
     left: 2%;
 }
 
 .cmc {
     position: absolute;
-    top: 70%;
+    top: 65%;
     right: 2%; 
 
 }
 
-.colors {
-    position: absolute;
-    top: 30%;
-    left: 40%;
-}
-
 .types {
     position: absolute;
-    top: 75%;
+    top: 70%;
     left: 2%;
 }
 
 .subtypes {
     position: absolute;
-    top: 75%;
+    top: 70%;
     left: 30%;
 }
 
 .rarity {
     position: absolute;
-    top: 75%;
+    top: 70%;
     right: 2%;
 }
 
 .text{
+    overflow: auto;
     position: absolute;
-    top: 80%;
+    top: 75%;
     left: 2%;
 }
 
